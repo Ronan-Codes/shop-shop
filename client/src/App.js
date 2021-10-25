@@ -16,6 +16,11 @@ import Signup from './pages/Signup';
 import Nav from './components/Nav';
 import OrderHistory from './pages/OrderHistory';
 
+import { StoreProvider } from './utils/GlobalState';
+// insert <StoreProvider> after <Router>
+// We can now use our useStoreContext() function to grab the state from the <StoreProvider> 
+  // component and use the returning dispatch method to update it
+
 const httpLink = createHttpLink({
   uri: '/graphql',
 });
@@ -40,15 +45,17 @@ function App() {
     <ApolloProvider client={client}>
       <Router>
         <div>
-          <Nav />
-          <Switch>
-            <Route exact path="/" component={Home} />
-            <Route exact path="/login" component={Login} />
-            <Route exact path="/signup" component={Signup} />
-            <Route exact path="/orderHistory" component={OrderHistory} />
-            <Route exact path="/products/:id" component={Detail} />
-            <Route component={NoMatch} />
-          </Switch>
+          <StoreProvider>
+            <Nav />
+            <Switch>
+              <Route exact path="/" component={Home} />
+              <Route exact path="/login" component={Login} />
+              <Route exact path="/signup" component={Signup} />
+              <Route exact path="/orderHistory" component={OrderHistory} />
+              <Route exact path="/products/:id" component={Detail} />
+              <Route component={NoMatch} />
+            </Switch>
+          </StoreProvider>
         </div>
       </Router>
     </ApolloProvider>
