@@ -8,7 +8,7 @@ import { useStoreContext } from '../../utils/GlobalState';
 import { UPDATE_CATEGORIES, UPDATE_CURRENT_CATEGORY } from '../../utils/actions';
 
 
-function CategoryMenu({ setCategory }) {
+function CategoryMenu() {
   // const { data: categoryData } = useQuery(QUERY_CATEGORIES);
   // const categories = categoryData?.categories || [];
     // replaced to use GlobalState for OFFLINE CAPABILITIES 
@@ -30,14 +30,22 @@ function CategoryMenu({ setCategory }) {
   }, [categoryData, dispatch])
   // useEffect now runs on load, categoryData change, and dispatch. (1st argument is what will run.)
 
+  const handleClick = id => {
+    dispatch({
+      type: UPDATE_CURRENT_CATEGORY,
+      currentCategory: id
+    })
+  }
+
   return (
     <div>
       <h2>Choose a Category:</h2>
-      {categories.map((item) => (
+      {categories.map(item => (
         <button
           key={item._id}
           onClick={() => {
-            setCategory(item._id);
+            // setCategory(item._id); (removed Prop)
+            handleClick(item._id);
           }}
         >
           {item.name}

@@ -5,20 +5,47 @@ import { useQuery } from '@apollo/client';
 import { QUERY_PRODUCTS } from '../utils/queries';
 import spinner from '../assets/spinner.gif';
 
-function Detail() {
-  const { id } = useParams();
+import { useStoreContext } from "../utils/GlobalState";
+import { UPDATE_PRODUCTS } from "../utils/actions";
 
-  const [currentProduct, setCurrentProduct] = useState({});
+function Detail() {
+  // const { id } = useParams();
+
+  // const [currentProduct, setCurrentProduct] = useState({});
+
+  // const { loading, data } = useQuery(QUERY_PRODUCTS);
+
+  // const products = data?.products || [];
+
+  // useEffect(() => {
+  //   if (products.length) {
+  //     setCurrentProduct(products.find((product) => product._id === id));
+  //   }
+  // }, [products, id]);
+
+  const [state, dispatch] = useStoreContext();
+
+  const { id } = useParams();
+  // unrelated to Global State
+
+  const [currentProduct, setCurrentProduct] = useState({})
 
   const { loading, data } = useQuery(QUERY_PRODUCTS);
 
-  const products = data?.products || [];
+  const { products } = state;
 
   useEffect(() => {
-    if (products.length) {
-      setCurrentProduct(products.find((product) => product._id === id));
+    if(products.length) {
+      setCurrentProduct(products.find(product => product._id === id));
+    } else if (data) {
+      dispatch({
+        type: UPDATE_PRODUCTS,
+        products: data.products
+      });
     }
-  }, [products, id]);
+
+  }, [products, data, dispatch, id]);
+  // why do we still have local state? Why isn't the currentProduct part of the global state?
 
   return (
     <>
