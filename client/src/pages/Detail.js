@@ -39,7 +39,8 @@ function Detail() {
 
   const { loading, data } = useQuery(QUERY_PRODUCTS);
 
-  const { products } = state;
+  // cart used in UPDATE_CART_QUANTITY
+  const { products, cart } = state;
 
   // Review
   useEffect(() => {
@@ -51,15 +52,39 @@ function Detail() {
         products: data.products
       });
     }
-
+    // this will rerun if there was no product.length and had to Update Product
   }, [products, data, dispatch, id]);
   // why do we still have local state? Why isn't the currentProduct part of the global state?
 
-  // ADD_TO_CART
+  // ADD_TO_CART Replaced by below
+    // const addToCart = () => {
+    //   dispatch({
+    //     type: ADD_TO_CART,
+    //     product: { currentProduct, purchaseQuantity: 1}
+    //   })
+    // }
+
   const addToCart = () => {
+    const itemInCart = cart.find((cartItem) => cartItem._id === id);
+  
+    if (itemInCart) {
+      dispatch({
+        type: UPDATE_CART_QUANTITY,
+        _id: id,
+        purchaseQuantity: parseInt(itemInCart.purchaseQuantity) + 1
+      });
+    } else {
+      dispatch({
+        type: ADD_TO_CART,
+        product: { ...currentProduct, purchaseQuantity: 1 }
+      });
+    }
+  };
+
+  const removeFromCart = () => {
     dispatch({
-      type: ADD_TO_CART,
-      product: { currentProduct, purchaseQuantity: 1}
+      type: REMOVE_FROM_CART,
+      _id: currentProduct._id
     })
   }
 
@@ -76,7 +101,12 @@ function Detail() {
           <p>
             <strong>Price:</strong>${currentProduct.price}{' '}
             <button onClick={addToCart}>Add to Cart</button>
-            <button>Remove from Cart</button>
+            <button
+              disabled={!cart.find(p => p._id === currentProduct._id)}
+              onClick={removeFromCart}
+            >
+              Remove from Cart
+            </button>
           </p>
 
           <img
