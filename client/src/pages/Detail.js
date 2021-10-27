@@ -6,7 +6,12 @@ import { QUERY_PRODUCTS } from '../utils/queries';
 import spinner from '../assets/spinner.gif';
 
 import { useStoreContext } from "../utils/GlobalState";
-import { UPDATE_PRODUCTS } from "../utils/actions";
+import { 
+  UPDATE_PRODUCTS,
+  REMOVE_FROM_CART,
+  UPDATE_CART_QUANTITY,
+  ADD_TO_CART
+} from "../utils/actions";
 
 import Cart from '../components/Cart';
 
@@ -36,6 +41,7 @@ function Detail() {
 
   const { products } = state;
 
+  // Review
   useEffect(() => {
     if(products.length) {
       setCurrentProduct(products.find(product => product._id === id));
@@ -49,6 +55,14 @@ function Detail() {
   }, [products, data, dispatch, id]);
   // why do we still have local state? Why isn't the currentProduct part of the global state?
 
+  // ADD_TO_CART
+  const addToCart = () => {
+    dispatch({
+      type: ADD_TO_CART,
+      product: { currentProduct, purchaseQuantity: 1}
+    })
+  }
+
   return (
     <>
       {currentProduct ? (
@@ -61,7 +75,7 @@ function Detail() {
 
           <p>
             <strong>Price:</strong>${currentProduct.price}{' '}
-            <button>Add to Cart</button>
+            <button onClick={addToCart}>Add to Cart</button>
             <button>Remove from Cart</button>
           </p>
 
