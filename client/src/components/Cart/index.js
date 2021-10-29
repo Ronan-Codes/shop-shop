@@ -1,15 +1,37 @@
-import React from "react";
+// import React from "react";
 import CartItem from '../CartItem';
 import Auth from '../../utils/auth';
 import './style.css';
 
+// useEffect for IndexedDB
+import React, { useEffect } from "react";
 // for Global Store
 import { useStoreContext } from '../../utils/GlobalState';
-import { TOGGLE_CART } from '../../utils/actions';
+  // ADD_MULTIPLE_TO_CART for IndexedDB
+import { TOGGLE_CART, ADD_MULTIPLE_TO_CART } from '../../utils/actions';
+
+// IndexedDB
+import { idbPromise } from '../../utils/helpers';
 
 const Cart = () => {
   // imports state and dispatch from Global Store
   const [state, dispatch] = useStoreContext();
+
+  // IndexedDB
+  useEffect(() => {
+    async function getCart() {
+      const cart = await idbPromise('cart', 'get');
+      dispatch({
+        type: ADD_MULTIPLE_TO_CART,
+        products: [...cart]
+      });
+    };
+
+    if(!state.cart.length) {
+      getCart();
+    }
+
+  }, [state.cart.length, dispatch])
 
   function toggleCart() {
       dispatch({ type: TOGGLE_CART });

@@ -7,6 +7,9 @@ import { useStoreContext } from '../../utils/GlobalState';
 // for Global State 
 import { UPDATE_CATEGORIES, UPDATE_CURRENT_CATEGORY } from '../../utils/actions';
 
+// IndexedDB
+import { idbPromise } from '../../utils/helpers';
+
 
 function CategoryMenu() {
   // const { data: categoryData } = useQuery(QUERY_CATEGORIES);
@@ -15,7 +18,9 @@ function CategoryMenu() {
 
   const [state, dispatch] = useStoreContext();
   const { categories } = state;
-  const { data: categoryData } = useQuery(QUERY_CATEGORIES);
+
+  // Need loading for idbPromise function
+  const { loading, data: categoryData } = useQuery(QUERY_CATEGORIES);
   // useStoreContext() Hook retrieves the current state from the global state object and the dispatch() method to update state. 
 
   useEffect(() => {
@@ -26,8 +31,21 @@ function CategoryMenu() {
         type: UPDATE_CATEGORIES,
         categories: categoryData.categories
       });
+
+      categoryData.categories.forEach(category => {
+        idbPromise('categories', 'put', category);
+      });
+
+    } else if (!loading) {
+      idbPromise('categories', 'get').then(categories => {
+        dispatch({
+          type: UPDATE_CATEGORIES,
+          categories: categories
+        });
+      });
     }
-  }, [categoryData, dispatch])
+    
+  }, [categoryData, loading, dispatch])
   // useEffect now runs on load, categoryData change, and dispatch. (1st argument is what will run.)
 
   const handleClick = id => {

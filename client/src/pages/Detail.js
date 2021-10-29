@@ -15,6 +15,9 @@ import {
 
 import Cart from '../components/Cart';
 
+// indexedDB
+import { idbPromise } from '../utils/helpers';
+
 function Detail() {
   // const { id } = useParams();
 
@@ -44,16 +47,33 @@ function Detail() {
 
   // Review
   useEffect(() => {
-    if(products.length) {
+    // already in global store
+    if (products.length) {
       setCurrentProduct(products.find(product => product._id === id));
-    } else if (data) {
+    } 
+    // retrieved from server
+    else if (data) {
       dispatch({
         type: UPDATE_PRODUCTS,
         products: data.products
       });
+  
+      data.products.forEach((product) => {
+        idbPromise('products', 'put', product);
+      });
     }
-    // this will rerun if there was no product.length and had to Update Product
-  }, [products, data, dispatch, id]);
+    // get cache from idb
+    else if (!loading) {
+      idbPromise('products', 'get').then((indexedProducts) => {
+        dispatch({
+          type: UPDATE_PRODUCTS,
+          products: indexedProducts
+        });
+      });
+    }
+
+    // Will go through all of this
+  }, [products, data, loading, dispatch, id]);
   // why do we still have local state? Why isn't the currentProduct part of the global state?
 
   // ADD_TO_CART Replaced by below
@@ -64,8 +84,9 @@ function Detail() {
     //   })
     // }
 
+
   const addToCart = () => {
-    const itemInCart = cart.find((cartItem) => cartItem._id === id);
+    const itemInCart = cart.find((cartItem) => cartItem._id === id)
   
     if (itemInCart) {
       dispatch({
@@ -73,19 +94,31 @@ function Detail() {
         _id: id,
         purchaseQuantity: parseInt(itemInCart.purchaseQuantity) + 1
       });
+      // IndexedDB - if we're updating quantity, use existing item data and increment purchaseQuantity value by one
+      idbPromise('cart', 'put', {
+        ...itemInCart,
+        purchaseQuantity: parseInt(itemInCart.purchaseQuantity) + 1
+      });
     } else {
       dispatch({
         type: ADD_TO_CART,
         product: { ...currentProduct, purchaseQuantity: 1 }
       });
+      // IndexedDB - if product isn't in the cart yet, add it to the current shopping cart in IndexedDB
+      idbPromise('cart', 'put', { ...currentProduct, purchaseQuantity: 1 });
+      // didn't have to use parseInt, because you are setting new number, not adding to stringified value
+
     }
-  };
+  }
 
   const removeFromCart = () => {
     dispatch({
       type: REMOVE_FROM_CART,
       _id: currentProduct._id
-    })
+    });
+
+    // IndexedDB - upon removal from cart, delete the item from IndexedDB using the `currentProduct._id` to locate what to remove
+    idbPromise('cart', 'delete', { ...currentProduct })
   }
 
   return (

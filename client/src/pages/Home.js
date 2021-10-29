@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
+// { usestate } is not used anymore 
+
 import ProductList from "../components/ProductList";
 import CategoryMenu from "../components/CategoryMenu";
 
