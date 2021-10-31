@@ -101,6 +101,7 @@ const resolvers = {
         success_url: `${url}/success?session_id={CHECKOUT_SESSION_ID}`,
         cancel_url: `${url}`
       });
+        // success_url -> App.js <Route exact path="/success" component={Success} />
       
       return { session: session.id };
     }

@@ -15,6 +15,8 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Nav from './components/Nav';
 import OrderHistory from './pages/OrderHistory';
+// Stripe Success 
+import Success from './pages/Success';
 
 import { StoreProvider } from './utils/GlobalState';
 // insert <StoreProvider> after <Router>
@@ -53,6 +55,10 @@ function App() {
               <Route exact path="/signup" component={Signup} />
               <Route exact path="/orderHistory" component={OrderHistory} />
               <Route exact path="/products/:id" component={Detail} />
+
+              {/* Strip Success Page */}
+              <Route exact path="/success" component={Success} />
+
               <Route component={NoMatch} />
             </Switch>
           </StoreProvider>
