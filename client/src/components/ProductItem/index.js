@@ -2,13 +2,13 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { pluralize } from "../../utils/helpers"
 
-// For Global Store
-import { useStoreContext } from '../../utils/GlobalState';
+// import { useStoreContext } from '../../utils/GlobalState';
+  // replaced with Redux Version
+import { useSelector, useDispatch } from 'react-redux'
 import { ADD_TO_CART, UPDATE_CART_QUANTITY } from '../../utils/actions';
 
 // IndexedDB (adding and updating item in cart. === Detail.js)
 import { idbPromise } from "../../utils/helpers";
-import { parse } from "graphql";
 
 function ProductItem(item) {
   const {
@@ -19,8 +19,9 @@ function ProductItem(item) {
     quantity
   } = item;
 
-  //Global Store Access
-  const [state, dispatch] = useStoreContext();
+  // const [state, dispatch] = useStoreContext();
+  const state = useSelector(state => state);
+  const dispatch = useDispatch()
 
   const { cart } = state
 
@@ -55,13 +56,6 @@ function ProductItem(item) {
       });
     }
   };
-
-  // const addToCart = () => {
-  //   dispatch({
-  //     type: ADD_TO_CART,
-  //     product: { ...item, purchaseQuantity: 1 }
-  //   });
-  // };
 
   return (
     <div className="card px-1 py-1">

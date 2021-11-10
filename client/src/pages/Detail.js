@@ -1,39 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
-
 import { QUERY_PRODUCTS } from '../utils/queries';
 import spinner from '../assets/spinner.gif';
 
-import { useStoreContext } from "../utils/GlobalState";
+// import { useStoreContext } from "../utils/GlobalState";
+import { useSelector, useDispatch } from 'react-redux'
+
 import { 
   UPDATE_PRODUCTS,
   REMOVE_FROM_CART,
   UPDATE_CART_QUANTITY,
   ADD_TO_CART
 } from "../utils/actions";
-
 import Cart from '../components/Cart';
-
 // indexedDB
 import { idbPromise } from '../utils/helpers';
 
 function Detail() {
-  // const { id } = useParams();
-
-  // const [currentProduct, setCurrentProduct] = useState({});
-
-  // const { loading, data } = useQuery(QUERY_PRODUCTS);
-
-  // const products = data?.products || [];
-
-  // useEffect(() => {
-  //   if (products.length) {
-  //     setCurrentProduct(products.find((product) => product._id === id));
-  //   }
-  // }, [products, id]);
-
-  const [state, dispatch] = useStoreContext();
+  // const [state, dispatch] = useStoreContext();
+  const state = useSelector(state => state);
+  const dispatch = useDispatch()
 
   const { id } = useParams();
   // unrelated to Global State
@@ -83,7 +70,6 @@ function Detail() {
     //     product: { currentProduct, purchaseQuantity: 1}
     //   })
     // }
-
 
   const addToCart = () => {
     const itemInCart = cart.find((cartItem) => cartItem._id === id)

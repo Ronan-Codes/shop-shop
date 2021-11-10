@@ -5,30 +5,20 @@ import { useQuery } from '@apollo/client';
 import ProductItem from '../ProductItem';
 import { QUERY_PRODUCTS } from '../../utils/queries';
 import spinner from '../../assets/spinner.gif';
-
-import { useStoreContext } from '../../utils/GlobalState';
 import { UPDATE_PRODUCTS } from '../../utils/actions'
+
+// import { useStoreContext } from '../../utils/GlobalState';
+  // replaced with Redux Version
+import { useSelector, useDispatch } from 'react-redux'
 
 // IndexedDB
 import { idbPromise } from '../../utils/helpers'
 
 function ProductList() {
-  // const { loading, data } = useQuery(QUERY_PRODUCTS);
-
-  // const products = data?.products || [];
-
-  // function filterProducts() {
-  //   if (!currentCategory) {
-  //     return products;
-  //   }
-
-  //   return products.filter(
-  //     (product) => product.category._id === currentCategory
-  //   );
-  // }
-
-  const [state, dispatch] = useStoreContext();
-  // retrieve current global state object & dispatch method to update state
+  // const [state, dispatch] = useStoreContext();
+  const state = useSelector(state => state);
+  const dispatch = useDispatch()
+  
   const { currentCategory } = state;
   // destructure the currentCategory data out of the state object so we can use it in the filterProducts() function.
   const { loading, data } = useQuery(QUERY_PRODUCTS);

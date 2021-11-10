@@ -3,20 +3,23 @@ import React, { useEffect } from 'react';
 import { useQuery } from '@apollo/client';
 import { QUERY_CATEGORIES } from '../../utils/queries';
 
-import { useStoreContext } from '../../utils/GlobalState';
 // for Global State 
 import { UPDATE_CATEGORIES, UPDATE_CURRENT_CATEGORY } from '../../utils/actions';
 
 // IndexedDB
 import { idbPromise } from '../../utils/helpers';
 
+// import { useStoreContext } from '../../utils/GlobalState';
+  // replaced with Redux Version
+import { useSelector, useDispatch } from 'react-redux'
+
 
 function CategoryMenu() {
-  // const { data: categoryData } = useQuery(QUERY_CATEGORIES);
-  // const categories = categoryData?.categories || [];
-    // replaced to use GlobalState for OFFLINE CAPABILITIES 
+  // const [state, dispatch] = useStoreContext();
+  // replace useStoreContext with Redux version
+  const state = useSelector(state => state);
+  const dispatch = useDispatch()
 
-  const [state, dispatch] = useStoreContext();
   const { categories } = state;
 
   // Need loading for idbPromise function

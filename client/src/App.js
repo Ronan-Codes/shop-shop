@@ -18,10 +18,9 @@ import OrderHistory from './pages/OrderHistory';
 // Stripe Success 
 import Success from './pages/Success';
 
-import { StoreProvider } from './utils/GlobalState';
-// insert <StoreProvider> after <Router>
-// We can now use our useStoreContext() function to grab the state from the <StoreProvider> 
-  // component and use the returning dispatch method to update it
+// import { StoreProvider } from './utils/GlobalState';
+import { Provider } from 'react-redux';
+import store from './utils/store';
 
 const httpLink = createHttpLink({
   uri: '/graphql',
@@ -47,7 +46,7 @@ function App() {
     <ApolloProvider client={client}>
       <Router>
         <div>
-          <StoreProvider>
+          <Provider store={store}>
             <Nav />
             <Switch>
               <Route exact path="/" component={Home} />
@@ -61,7 +60,7 @@ function App() {
 
               <Route component={NoMatch} />
             </Switch>
-          </StoreProvider>
+          </Provider>
         </div>
       </Router>
     </ApolloProvider>

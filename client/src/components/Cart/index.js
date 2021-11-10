@@ -2,11 +2,13 @@
 import CartItem from '../CartItem';
 import Auth from '../../utils/auth';
 import './style.css';
-
 // useEffect for IndexedDB
 import React, { useEffect } from "react";
-// for Global Store
-import { useStoreContext } from '../../utils/GlobalState';
+
+// import { useStoreContext } from '../../utils/GlobalState';
+  // replaced with Redux Version
+import { useSelector, useDispatch } from 'react-redux'
+
   // ADD_MULTIPLE_TO_CART for IndexedDB
 import { TOGGLE_CART, ADD_MULTIPLE_TO_CART } from '../../utils/actions';
 
@@ -25,8 +27,9 @@ const stripePromise = loadStripe('pk_test_TYooMQauvdEDq54NiTphI7jx');
   But first, we need to collect the IDs for the items being purchased. */
 
 const Cart = () => {
-  // imports state and dispatch from Global Store
-  const [state, dispatch] = useStoreContext();
+  // const [state, dispatch] = useStoreContext();
+  const state = useSelector(state => state);
+  const dispatch = useDispatch()
 
   // for Stripe
   const [getCheckout, { data }] = useLazyQuery(QUERY_CHECKOUT)
