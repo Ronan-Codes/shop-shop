@@ -19,7 +19,7 @@ React | Redux | MongoDB | Mongodb Atlas | Mongoose | Heroku | Express | Apollo s
 ```
 
 ## Installation
-# For development purposes... 
+### For development purposes.
 1. Clone the repo locally.
 2. Install npm packages at root of application.
 ```
