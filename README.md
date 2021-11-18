@@ -7,6 +7,7 @@ Shop-Shop is an E-commerce platform where users can create an account, login, ad
 1. [Description](#description)
 2. [Technologies](#Technologies)
 3. [Installation](#installation)
+4. [Deployment](#deployment)
 4. [Usage](#usage)
 5. [Screenshots](#Screenshots)
 6. [License](#License)
@@ -19,25 +20,32 @@ React | Redux | MongoDB | Mongodb Atlas | Mongoose | Heroku | Express | Apollo s
 ```
 
 ## Installation
-### For development purposes.
-1. Clone the repo locally.
+1. For development purposes, clone the repo locally.
 2. Install npm packages at root of application.
 ```
   npm install
 ```
-3. Run locally.
+3. Then, run locally.
 ```
   npm run develop
 ```
 
+## Deployment
+* [Heroku Link](https://shop-shop-ronancodes.herokuapp.com/)
+
 ## Usage
-1. 
+1. Access the deployed application in the link above.
+2. Users can signup/login to start browsing for products.
+![Screenshot 1](./public/images/)
 
+3. Once logged in, users can filter a product throught a category, view a specific product's details, and add/remove it from the shopping cart.
+![Screenshot 2](./public/images/)
 
+4. Users can also use the shopping cart modal to add, remove, or update item count.
+![Screenshot 3](./public/images/)
 
-* Heroku
-1. Viset the deployed application [here]().
-2. From here you can start using the shop-shop.
+5. Users can then checkout and submit their payment through Stripe. Then, past orders can be viewed in the `Order History` tab.
+![Screenshot 4](./public/images/)
 
 ## Screenshots 
 ![Screenshot 1](./public/images/)
@@ -50,5 +58,5 @@ This project is in the public domain and free for any and all users! For more in
 
 ## Author
 * This application was written and developed by Ronan Galvez as part of the UCF Coding Bootcamp.
-* For any inquiries/suggestions/concerns, open an issue in the [project repo]() or contact me directly at [galv.ronan@gmail.com](galv.ronan@gmail.com).
+* For any inquiries/suggestions/concerns, open an issue in the [project repo](https://github.com/Ronan-Codes/shop-shop.git) or contact me directly at [galv.ronan@gmail.com](galv.ronan@gmail.com).
 * Check out the rest of my work on GitHub at [Ronan-Codes](https://github.com/Ronan-Codes).
