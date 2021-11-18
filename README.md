@@ -35,20 +35,15 @@ React | Redux | MongoDB | Mongodb Atlas | Mongoose | Heroku | Express | Apollo s
 
 ## Usage
 1. Access the deployed application in the link above.
-2. Users can signup/login to start browsing for products.
-![Screenshot 1](./public/images/)
 
-3. Once logged in, users can filter a product throught a category, view a specific product's details, and add/remove it from the shopping cart.
-![Screenshot 2](./public/images/)
+2. Users can signup/login to start browsing for products. Once logged in, users can filter a product throught a category, view a specific product's details, and add/remove it from the shopping cart.
+![demo1](./demo/demo1.gif)
 
 4. Users can also use the shopping cart modal to add, remove, or update item count.
-![Screenshot 3](./public/images/)
+![demo2](./demo/demo2.gif)
 
 5. Users can then checkout and submit their payment through Stripe. Then, past orders can be viewed in the `Order History` tab.
-![Screenshot 4](./public/images/)
-
-## Screenshots 
-![Screenshot 1](./public/images/)
+![demo3](./demo/demo3.gif)
 
 ## License
 This project is in the public domain and free for any and all users! For more information on this (un)licensing statement, visit [unlicense.org](https://unlicense.org/).
